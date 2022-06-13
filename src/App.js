@@ -34,6 +34,15 @@ class DataModel extends EventEmitter {
 // Component (receives an instance of the `DataModel` as a `model` prop)
 const DataView = ({ model }) => {
   const [data, onDataUpdated] = React.useState(model.data());
+  const style = {
+    "color": "red",
+    "backgroundColor": "lightGreen",
+    "border": "none",
+    "padding": "20px",
+    "borderRadius": "10px",
+    "cursor": "pointer",
+    "fontSize": "20px"
+  }
 
   React.useEffect(() => {
     model.addListener("onDataUpdated", onDataUpdated);
@@ -47,7 +56,7 @@ const DataView = ({ model }) => {
   return (
     <div>
       <p>Counter: {data.counter}</p>
-      <button type="button" onClick={() => model.increaseCounter()}>
+      <button type="button" onClick={() => model.increaseCounter()} style={style}>
         Increase Counter
       </button>
     </div>
