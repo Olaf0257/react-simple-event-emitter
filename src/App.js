@@ -27,12 +27,22 @@ class DataModel extends EventEmitter {
 
   async increaseCounter() {
     this._data = { ...this._data, counter: ++this._data.counter };
+    this.emit("onDataUpdated", this._data);
   }
 }
 
 // Component (receives an instance of the `DataModel` as a `model` prop)
 const DataView = ({ model }) => {
   const [data, onDataUpdated] = React.useState(model.data());
+
+  React.useEffect(() => {
+    model.addListener("onDataUpdated", onDataUpdated);
+
+    return () => {
+      model.removeListener("onDataUpdated", onDataUpdated);
+    }
+  }, [model]);
+
 
   return (
     <div>
